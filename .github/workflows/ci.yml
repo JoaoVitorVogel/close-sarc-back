@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Build auth
+        working-directory: ./services/auth
+        run: mvn -B -DskipTests package
+
+      - name: Build billing
+        working-directory: ./services/billing
+        run: mvn -B -DskipTests package
+
+      - name: Build catalog
+        working-directory: ./services/catalog
+        run: mvn -B -DskipTests package
+
+      - name: Build Docker images
+        run: |
+          docker build -t close-sarc/auth:latest ./services/auth
+          docker build -t close-sarc/billing:latest ./services/billing
+          docker build -t close-sarc/catalog:latest ./services/catalog
