@@ -9,7 +9,6 @@
 
     <modules>
         <module>services/auth</module>
-        <module>services/resource</module>
         <module>packages/shared-utils</module>
         <module>packages/shared-config</module>
     </modules>
