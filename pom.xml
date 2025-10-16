@@ -9,8 +9,6 @@
 
     <modules>
         <module>services/auth</module>
-        <module>services/billing</module>
-        <module>services/catalog</module>
         <module>packages/shared-utils</module>
         <module>packages/shared-config</module>
     </modules>
