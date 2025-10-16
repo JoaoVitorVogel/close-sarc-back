@@ -7,5 +7,5 @@ RUN mvn -B -DskipTests package
 
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-COPY --from=build /workspace/target/auth-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /workspace/target/resource-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java","-jar","/app/app.jar"]
