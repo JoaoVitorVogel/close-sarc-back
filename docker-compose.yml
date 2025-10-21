@@ -1,47 +1,54 @@
 version: "3.8"
+
 services:
   postgres:
     image: postgres:16
     container_name: pg
     environment:
       POSTGRES_DB: appdb
-      POSTGRES_USER: appuser
-      POSTGRES_PASSWORD: secret
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
     ports:
-      - "5432:5432"            # se já tiver Postgres local, use "5433:5432"
+      - "5432:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
-      - ../db/init.sql:/docker-entrypoint-initdb.d/00_init.sql:ro
+      - ./db/init.sql:/docker-entrypoint-initdb.d/00_init.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U appuser -d appdb"]
       interval: 5s
       timeout: 3s
       retries: 20
 
-  pgadmin:
-    image: dpage/pgadmin4:8
+  auth:
+    build:
+      context: ./services/auth
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@local
-      PGADMIN_DEFAULT_PASSWORD: admin
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/appdb
+      SPRING_DATASOURCE_USERNAME: appuser
+      SPRING_DATASOURCE_PASSWORD: secret
+      # JAVA_OPTS: "-Xms256m -Xmx512m"  # opcional
     ports:
-      - "8082:80"              # troquei para evitar conflito
+      - "8080:8080"
     depends_on:
       postgres:
         condition: service_healthy
+    restart: unless-stopped
 
-  auth:
+  resource:
     build:
-      context: ../services/auth   # ok se o compose está em infra/
+      context: ./services/resource
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/appdb
       SPRING_DATASOURCE_USERNAME: appuser
       SPRING_DATASOURCE_PASSWORD: secret
     ports:
-      - "8080:8080"              # porta padrão do Spring
+      - "8081:8080"
     depends_on:
       postgres:
         condition: service_healthy
+    restart: unless-stopped
 
 volumes:
   pg_data:
