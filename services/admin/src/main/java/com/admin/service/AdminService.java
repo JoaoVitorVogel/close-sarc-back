@@ -1,15 +1,12 @@
 package com.admin.service;
 
-import com.admin.dto.ProfessorCreateDTO;
-import com.admin.dto.RecursoCreateDTO;
+
 import com.admin.dto.ResourceCreateDto;
 import com.admin.dto.UserCreateDto;
-import com.admin.entity.Professor;
-import com.admin.entity.Recurso;
+
 import com.admin.entity.Resource;
 import com.admin.entity.User;
-import com.admin.repository.ProfessorRepository;
-import com.admin.repository.RecursoRepository;
+
 import com.admin.repository.ResourceRepository;
 import com.admin.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
