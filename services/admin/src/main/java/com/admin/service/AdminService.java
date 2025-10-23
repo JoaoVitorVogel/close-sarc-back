@@ -2,11 +2,14 @@ package com.admin.service;
 
 
 import com.admin.dto.ResourceCreateDto;
-import com.admin.dto.UserCreateDto;
+import com.admin.dto.GroupCreateDto;
 
+import com.admin.dto.UserCreateDto;
+import com.admin.entity.Group;
 import com.admin.entity.Resource;
 import com.admin.entity.User;
 
+import com.admin.repository.GroupRepository;
 import com.admin.repository.ResourceRepository;
 import com.admin.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,9 @@ public class AdminService {
 
     @Autowired
     private ResourceRepository resourceRepository;
+
+    @Autowired
+    private GroupRepository groupRepository;
 
     @Transactional
     public User addUser(UserCreateDto dto) {
@@ -49,5 +55,16 @@ public class AdminService {
         }
 
         return resourceRepository.save(resource);
+    }
+
+    public Group cadastrarGroup(GroupCreateDto dto) {
+        Group group = new Group();
+        group.setNome(dto.getNome());
+        group.setCurso(dto.getCurso());
+        group.setHorario(dto.getHorario());
+        group.setProfessor_id(dto.getId_professor());
+
+
+        return groupRepository.save(group);
     }
 }

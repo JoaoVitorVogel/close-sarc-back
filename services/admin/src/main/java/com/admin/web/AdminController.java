@@ -2,8 +2,10 @@ package com.admin.web;
 
 
 import com.admin.dto.ResourceCreateDto;
-import com.admin.dto.UserCreateDto;
+import com.admin.dto.GroupCreateDto;
 
+import com.admin.dto.UserCreateDto;
+import com.admin.entity.Group;
 import com.admin.entity.Resource;
 import com.admin.entity.User;
 import com.admin.service.AdminService;
@@ -35,5 +37,11 @@ public class AdminController {
     public ResponseEntity<Resource> cadastrarRecurso(@Valid @RequestBody ResourceCreateDto dto) {
         Resource novoRecurso = adminService.cadastrarRecurso(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoRecurso);
+    }
+
+    @PostMapping("/turma")
+    public ResponseEntity<Group> cadastrarGroup(@Valid @RequestBody GroupCreateDto dto) {
+        Group novaTurma = adminService.cadastrarGroup(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novaTurma);
     }
 }
