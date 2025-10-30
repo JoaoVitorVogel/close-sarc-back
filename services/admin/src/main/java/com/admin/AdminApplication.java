@@ -1,11 +1,11 @@
-package com.example.resource;
+package com.admin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ResourceApplication {
+public class AdminApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ResourceApplication.class, args);
+        SpringApplication.run(AdminApplication.class, args);
     }
 }
