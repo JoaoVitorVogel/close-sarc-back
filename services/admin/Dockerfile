@@ -1,9 +1,10 @@
-# syntax=docker/dockerfile:1
-# Etapa 1: build com Maven
 FROM maven:3.9.9-eclipse-temurin-21 AS build
 WORKDIR /workspace
-COPY pom.xml .
-COPY src ./src
+
+# Copia TUDO do diretório 'context' (definido no docker-compose)
+COPY . .
+
+# Roda o build (ele encontrará o pom.xml)
 RUN mvn -B -DskipTests clean package
 
 # Etapa 2: runtime leve
