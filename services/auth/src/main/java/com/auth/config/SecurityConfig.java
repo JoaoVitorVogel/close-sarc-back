@@ -51,7 +51,7 @@ public class SecurityConfig {
         return new ProviderManager(authProvider);
     }
 
-    // Configuração de segurança: libera /login e /jwks
+    // Configuração de segurança: libera /login e /jwks e tambem as do swagger
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -59,7 +59,13 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/auth/login", "/oauth2/jwks").permitAll()
+                        .requestMatchers(
+                                "/api/auth/login",
+                                "/oauth2/jwks",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();

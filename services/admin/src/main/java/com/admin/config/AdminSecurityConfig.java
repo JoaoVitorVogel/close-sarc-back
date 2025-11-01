@@ -48,7 +48,6 @@ public class AdminSecurityConfig {
         JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
         // Diz ao Spring para procurar as roles na claim "authorities"
         grantedAuthoritiesConverter.setAuthoritiesClaimName("authorities");
-        // Remove o prefixo "SCOPE_" que o Spring adiciona por padrão
         grantedAuthoritiesConverter.setAuthorityPrefix("");
 
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();

@@ -56,3 +56,10 @@ CREATE INDEX idx_evento_professor   ON evento(professor_id);
 CREATE INDEX idx_turma_professor    ON turma(professor_id);
 CREATE INDEX idx_reserva_evento     ON reserva(evento_id);
 CREATE INDEX idx_reserva_recurso    ON reserva(recurso_id);
+
+INSERT INTO administrador (nome, email, senha)
+VALUES (
+           'Administrador Padrão',
+           'admin@exemplo.com',
+           '$2a$10$bOzuoH5zifz9OJQAbjZrZOB5C2ehQ17u2yCP/zx0HFk7LVa9oX/4G' --admin123
+       );

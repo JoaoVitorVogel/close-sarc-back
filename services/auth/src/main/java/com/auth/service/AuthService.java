@@ -21,7 +21,7 @@ public class AuthService {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    private TokenService tokenService; // Nosso novo TokenService
+    private TokenService tokenService;
     @Autowired
     private UserRepository userRepository;
     @Autowired

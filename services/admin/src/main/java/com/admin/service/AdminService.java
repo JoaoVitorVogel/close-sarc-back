@@ -33,7 +33,6 @@ public class AdminService {
     private PasswordEncoder passwordEncoder;
     @Transactional
     public User addUser(UserCreateDto dto) {
-        // TODO: Adicionar lógica para verificar se email já existe
 
         User user = new User();
         user.setNome(dto.getNome());
