@@ -30,10 +30,16 @@ public class AdminSecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // API stateless
                 .authorizeHttpRequests(authz -> authz
                         // Apenas quem tem a ROLE_ADMIN pode cadastrar
-                        .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers(
+                                "/",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
+
                 // Habilita a validação de token JWT
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))

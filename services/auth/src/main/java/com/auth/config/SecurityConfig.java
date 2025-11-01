@@ -80,10 +80,12 @@ public class SecurityConfig {
     }
 
     // Bean para o Decoder (para ler JWTs)
+    /*
     @Bean
     public JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withPublicKey(this.publicKey).build();
     }
+    */
 
     // Bean para o JWKSet (para o JwksController)
     @Bean

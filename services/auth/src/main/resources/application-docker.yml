@@ -15,7 +15,8 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
-
+jwt:
+  issuer: http://auth:8080
 springdoc:
   swagger-ui:
     path: /swagger-ui

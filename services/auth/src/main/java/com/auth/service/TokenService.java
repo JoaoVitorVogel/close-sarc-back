@@ -1,6 +1,7 @@
 package com.auth.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -16,7 +17,8 @@ public class TokenService {
 
     @Autowired
     private JwtEncoder jwtEncoder;
-
+    @Value("${jwt.issuer}")
+    private String issuer;
     // 24 horas de expiração
     private final long EXPIRATION_TIME_MS = 86400000;
 
@@ -29,7 +31,7 @@ public class TokenService {
                 .collect(Collectors.joining(" "));
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
-                .issuer("http://localhost:8080") // O emissor do token
+                .issuer(issuer) // O emissor do token
                 .issuedAt(now)
                 .expiresAt(now.plusMillis(EXPIRATION_TIME_MS))
                 .subject(authentication.getName()) // O email
