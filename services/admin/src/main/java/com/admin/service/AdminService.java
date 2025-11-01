@@ -15,6 +15,7 @@ import com.admin.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 public class AdminService {
@@ -28,15 +29,15 @@ public class AdminService {
     @Autowired
     private GroupRepository groupRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Transactional
     public User addUser(UserCreateDto dto) {
-        // TODO: Adicionar lógica para verificar se email já existe
-        // TODO: Criptografar a senha antes de salvar, se precisar mas nn sei se precisa ainda
 
         User user = new User();
         user.setNome(dto.getNome());
         user.setEmail(dto.getEmail());
-        user.setSenha(dto.getSenha());
+        user.setSenha(passwordEncoder.encode(dto.getSenha()));
 
         return userRepository.save(user);
     }
