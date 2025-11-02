@@ -28,8 +28,9 @@ public class RsaKeyConfig {
         try (InputStream is = publicKeyResource.getInputStream()) {
             String publicKeyPEM = new String(is.readAllBytes(), StandardCharsets.UTF_8)
                     .replace("-----BEGIN PUBLIC KEY-----", "")
-                    .replaceAll(System.lineSeparator(), "")
-                    .replace("-----END PUBLIC KEY-----", "");
+                    .replace("-----END PUBLIC KEY-----", "")
+                    .replaceAll("\\s+", ""); // <-- mudança mínima
+
             byte[] encoded = Base64.decode(publicKeyPEM.getBytes());
             KeyFactory kf = KeyFactory.getInstance("RSA");
             return (RSAPublicKey) kf.generatePublic(new X509EncodedKeySpec(encoded));
@@ -41,8 +42,9 @@ public class RsaKeyConfig {
         try (InputStream is = privateKeyResource.getInputStream()) {
             String privateKeyPEM = new String(is.readAllBytes(), StandardCharsets.UTF_8)
                     .replace("-----BEGIN PRIVATE KEY-----", "")
-                    .replaceAll(System.lineSeparator(), "")
-                    .replace("-----END PRIVATE KEY-----", "");
+                    .replace("-----END PRIVATE KEY-----", "")
+                    .replaceAll("\\s+", "");
+
             byte[] encoded = Base64.decode(privateKeyPEM.getBytes());
             KeyFactory kf = KeyFactory.getInstance("RSA");
             return (RSAPrivateKey) kf.generatePrivate(new PKCS8EncodedKeySpec(encoded));

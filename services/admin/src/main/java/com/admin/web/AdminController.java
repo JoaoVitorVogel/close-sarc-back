@@ -9,6 +9,7 @@ import com.admin.entity.User;
 import com.admin.service.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement; 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/admin")
 @Tag(name = "Admin", description = "Operações de administração: professores, recursos e turmas")
+@SecurityRequirement(name = "bearerAuth")
 public class AdminController {
 
     @Autowired
