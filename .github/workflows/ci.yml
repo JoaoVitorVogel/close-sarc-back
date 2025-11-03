@@ -22,16 +22,16 @@ jobs:
         working-directory: ./services/auth
         run: mvn -B -DskipTests package
 
-      - name: Build billing
-        working-directory: ./services/billing
+      - name: Build user
+        working-directory: ./services/user
         run: mvn -B -DskipTests package
 
-      - name: Build catalog
-        working-directory: ./services/catalog
+      - name: Build admin
+        working-directory: ./services/admin
         run: mvn -B -DskipTests package
 
       - name: Build Docker images
         run: |
           docker build -t close-sarc/auth:latest ./services/auth
-          docker build -t close-sarc/billing:latest ./services/billing
-          docker build -t close-sarc/catalog:latest ./services/catalog
+          docker build -t close-sarc/user:latest ./services/user
+          docker build -t close-sarc/admin:latest ./services/admin

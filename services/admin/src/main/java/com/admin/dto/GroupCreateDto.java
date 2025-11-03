@@ -1,23 +1,21 @@
 package com.admin.dto;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class GroupCreateDto {
 
-    @NotBlank(message = "O nome é obrigatório")
-    private String nome;
+    @NotBlank(message = "Name is required")
+    private String name;
 
-    @NotBlank(message = "O curso é obrigatório")
-    private String curso;
+    @NotBlank(message = "Course is required")
+    private String course;
 
-    @NotBlank(message = "O horario é obrigatório")
-    private String horario;
+    @NotBlank(message = "Schedule is required")
+    private String schedule;
 
-    @NotBlank(message = "O prof é obrigatório")
-    private long id_professor;
-
+    @NotNull(message = "Professor ID is required")
+    private Long professorId;
 }

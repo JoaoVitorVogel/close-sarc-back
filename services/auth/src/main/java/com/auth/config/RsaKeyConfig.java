@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
-import org.springframework.security.crypto.codec.Base64;
 
 import java.io.InputStream;
+import java.util.Base64;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyFactory;
 import java.security.interfaces.RSAPrivateKey;
@@ -30,7 +30,7 @@ public class RsaKeyConfig {
                     .replace("-----BEGIN PUBLIC KEY-----", "")
                     .replaceAll(System.lineSeparator(), "")
                     .replace("-----END PUBLIC KEY-----", "");
-            byte[] encoded = Base64.decode(publicKeyPEM.getBytes());
+            byte[] encoded = Base64.getDecoder().decode(publicKeyPEM.getBytes());
             KeyFactory kf = KeyFactory.getInstance("RSA");
             return (RSAPublicKey) kf.generatePublic(new X509EncodedKeySpec(encoded));
         }
@@ -43,7 +43,7 @@ public class RsaKeyConfig {
                     .replace("-----BEGIN PRIVATE KEY-----", "")
                     .replaceAll(System.lineSeparator(), "")
                     .replace("-----END PRIVATE KEY-----", "");
-            byte[] encoded = Base64.decode(privateKeyPEM.getBytes());
+            byte[] encoded = Base64.getDecoder().decode(privateKeyPEM.getBytes());
             KeyFactory kf = KeyFactory.getInstance("RSA");
             return (RSAPrivateKey) kf.generatePrivate(new PKCS8EncodedKeySpec(encoded));
         }

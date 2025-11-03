@@ -31,8 +31,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (userOpt.isPresent()) {
             var prof = userOpt.get();
             List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_user"));
-            // Passamos email, senha HASHED, e roles
-            return new User(prof.getEmail(), prof.getSenha(), authorities);
+            // Passamos email, password HASHED, e roles
+            return new User(prof.getEmail(), prof.getPassword(), authorities);
         }
 
 
@@ -40,7 +40,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (adminOpt.isPresent()) {
             var admin = adminOpt.get();
             List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
-            return new User(admin.getEmail(), admin.getSenha(), authorities);
+            return new User(admin.getEmail(), admin.getPassword(), authorities);
         }
 
 
