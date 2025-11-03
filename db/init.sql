@@ -61,5 +61,5 @@ INSERT INTO admin (name, email, password)
 VALUES (
            'Default Administrator',
            'admin@example.com',
-           '$2a$10$bOzuoH5zifz9OJQAbjZrZOB5C2ehQ17u2yCP/zx0HFk7LVa9oX/4G' --admin123
+           '$2a$10$j7YyyHi40FhWgMRtU/owyuy/3S2tWSmwdhMe4gDo8YdSVV2BI1Bjm ' --admin123
        );
