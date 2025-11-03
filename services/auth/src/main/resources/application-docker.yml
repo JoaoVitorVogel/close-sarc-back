@@ -13,10 +13,14 @@ spring:
     properties:
       hibernate.format_sql: true
   flyway:
-    enabled: true
-    locations: classpath:db/migration
+    enabled: false
+
 jwt:
   issuer: http://auth:8080
+  key:
+    private: classpath:certs/private_key.pem
+    public: classpath:certs/public_key.pem
+
 springdoc:
   swagger-ui:
     path: /swagger-ui

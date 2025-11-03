@@ -1,65 +1,65 @@
 -- Recomendado: tudo em schema público mesmo, por enquanto
 CREATE TABLE professor (
   id          BIGSERIAL PRIMARY KEY,
-  nome        VARCHAR(100),
+  name        VARCHAR(100),
   email       VARCHAR(100) NOT NULL UNIQUE,
-  senha       VARCHAR(255) NOT NULL
+  password       VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE aluno (
+CREATE TABLE student (
   id          BIGSERIAL PRIMARY KEY,
-  nome        VARCHAR(100),
+  name        VARCHAR(100),
   email       VARCHAR(100) NOT NULL UNIQUE,
-  matricula   VARCHAR(50)  NOT NULL UNIQUE
+  registry_number   VARCHAR(50)  NOT NULL UNIQUE
 );
 
-CREATE TABLE administrador (
+CREATE TABLE admin (
   id          BIGSERIAL PRIMARY KEY,
-  nome        VARCHAR(100),
+  name        VARCHAR(100),
   email       VARCHAR(100) NOT NULL UNIQUE,
-  senha       VARCHAR(255) NOT NULL
+  password    VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE recurso (
+CREATE TABLE resource (
   id          BIGSERIAL PRIMARY KEY,
-  nome        VARCHAR(100),
-  descricao   TEXT,
-  disponivel  BOOLEAN NOT NULL DEFAULT TRUE
+  name        VARCHAR(100),
+  description   TEXT,
+  available  BOOLEAN NOT NULL DEFAULT TRUE
 );
 
-CREATE TABLE turma (
+CREATE TABLE class (
   id            BIGSERIAL PRIMARY KEY,
-  nome          VARCHAR(100),
-  curso         VARCHAR(100),
-  horario       VARCHAR(50),
+  name          VARCHAR(100),
+  course        VARCHAR(100),
+  schedule      VARCHAR(50),
   professor_id  BIGINT REFERENCES professor(id) ON DELETE SET NULL
 );
 
-CREATE TABLE evento (
+CREATE TABLE event (
   id            BIGSERIAL PRIMARY KEY,
-  titulo        VARCHAR(100),
-  descricao     TEXT,
-  data_inicio   TIMESTAMP NOT NULL,
-  data_fim      TIMESTAMP NOT NULL,
+  title        VARCHAR(100),
+  description     TEXT,
+  begin_date   TIMESTAMP NOT NULL,
+  end_date      TIMESTAMP NOT NULL,
   professor_id  BIGINT REFERENCES professor(id) ON DELETE SET NULL
 );
 
-CREATE TABLE reserva (
+CREATE TABLE reservation (
   id         BIGSERIAL PRIMARY KEY,
   status     VARCHAR(50),
-  evento_id  BIGINT NOT NULL REFERENCES evento(id)   ON DELETE CASCADE,
-  recurso_id BIGINT NOT NULL REFERENCES recurso(id)  ON DELETE RESTRICT
+  event_id  BIGINT NOT NULL REFERENCES event(id)   ON DELETE CASCADE,
+  resource_id BIGINT NOT NULL REFERENCES resource(id)  ON DELETE RESTRICT
 );
 
 -- Índices úteis
-CREATE INDEX idx_evento_professor   ON evento(professor_id);
-CREATE INDEX idx_turma_professor    ON turma(professor_id);
-CREATE INDEX idx_reserva_evento     ON reserva(evento_id);
-CREATE INDEX idx_reserva_recurso    ON reserva(recurso_id);
+CREATE INDEX idx_event_professor   ON event(professor_id);
+CREATE INDEX idx_class_professor    ON class(professor_id);
+CREATE INDEX idx_reservation_event     ON reservation(event_id);
+CREATE INDEX idx_reservation_resource    ON reservation(resource_id);
 
-INSERT INTO administrador (nome, email, senha)
+INSERT INTO admin (name, email, password)
 VALUES (
-           'Administrador Padrão',
-           'admin@exemplo.com',
+           'Default Administrator',
+           'admin@example.com',
            '$2a$10$bOzuoH5zifz9OJQAbjZrZOB5C2ehQ17u2yCP/zx0HFk7LVa9oX/4G' --admin123
        );

@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.info.Info;
         info = @Info(
                 title = "Admin API",
                 version = "v1",
-                description = "API de administração (professores, recursos e turmas)."
+                description = "API de administração (professores, resources e classs)."
         )
 )
 public class OpenApiConfig { }

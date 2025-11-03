@@ -6,10 +6,10 @@ import lombok.Data;
 @Data
 public class ResourceCreateDto {
 
-    @NotBlank(message = "O nome do recurso é obrigatório")
-    private String nome;
+    @NotBlank(message = "O name do resource é obrigatório")
+    private String name;
 
-    private String descricao;
+    private String description;
 
-    private Boolean disponivel;
+    private Boolean available;
 }

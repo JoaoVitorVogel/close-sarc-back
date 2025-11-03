@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "recurso")
+@Table(name = "resource")
 public class Resource {
 
     @Id
@@ -15,12 +15,12 @@ public class Resource {
     private Long id;
 
     @Column(length = 100)
-    private String nome;
+    private String name;
 
     @Column(columnDefinition = "TEXT")
-    private String descricao;
+    private String description;
 
     @Column(nullable = false)
-    private boolean disponivel = true; // Valor padrão do init.sql
+    private boolean available = true; // Valor padrão do init.sql
 
 }
