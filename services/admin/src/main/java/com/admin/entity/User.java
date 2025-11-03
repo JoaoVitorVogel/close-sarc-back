@@ -11,17 +11,15 @@ import lombok.NoArgsConstructor;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Usa BIGSERIAL
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 100)
-    private String nome;
+    @Column(name = "name", length = 100)
+    private String name;
 
-    @Column(length = 100, nullable = false, unique = true)
+    @Column(name = "email", length = 100, nullable = false, unique = true)
     private String email;
 
-    @Column(length = 255, nullable = false)
-    private String senha; //criptografar talvez nn sei se precisa :P
-
-
+    @Column(name = "password", length = 255, nullable = false)
+    private String password;
 }

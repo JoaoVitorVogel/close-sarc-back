@@ -23,27 +23,26 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private AdminRepository adminRepository;
 
-    // O "username" aqui é o email
+    // The "username" here is the email
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        // 1. Tenta encontrar como user
+        // 1. Try to find as user (professor)
         var userOpt = userRepository.findByEmail(email);
         if (userOpt.isPresent()) {
-            var prof = userOpt.get();
+            var professor = userOpt.get();
             List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_user"));
-            // Passamos email, senha HASHED, e roles
-            return new User(prof.getEmail(), prof.getSenha(), authorities);
+            // Pass email, HASHED password, and roles
+            return new User(professor.getEmail(), professor.getPassword(), authorities);
         }
 
-
+        // 2. Try to find as admin
         var adminOpt = adminRepository.findByEmail(email);
         if (adminOpt.isPresent()) {
             var admin = adminOpt.get();
             List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
-            return new User(admin.getEmail(), admin.getSenha(), authorities);
+            return new User(admin.getEmail(), admin.getPassword(), authorities);
         }
 
-
-        throw new UsernameNotFoundException("Usuário não encontrado com o email: " + email);
+        throw new UsernameNotFoundException("User not found with email: " + email);
     }
 }

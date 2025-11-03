@@ -28,29 +28,27 @@ public class AuthService {
     private AdminRepository adminRepository;
 
     public LoginResponseDto login(LoginRequestDto request) {
-
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getSenha())
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
 
         String token = tokenService.generateToken(authentication);
-//autentica e da role
         String role = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .findFirst()
                 .orElse("ROLE_USER");
 
-        String nome = getName(request.getEmail(), role);
+        String name = getName(request.getEmail(), role);
 
-        return new LoginResponseDto(token, nome, role);
+        return new LoginResponseDto(token, name, role);
     }
 
     private String getName(String email, String role) {
-        if ("ROLE_PROFESSOR".equals(role)) {
-            return userRepository.findByEmail(email).map(p -> p.getNome()).orElse("");
+        if ("ROLE_user".equals(role) || "ROLE_PROFESSOR".equals(role)) {
+            return userRepository.findByEmail(email).map(u -> u.getName()).orElse("");
         }
         if ("ROLE_ADMIN".equals(role)) {
-            return adminRepository.findByEmail(email).map(a -> a.getNome()).orElse("");
+            return adminRepository.findByEmail(email).map(a -> a.getName()).orElse("");
         }
         return "";
     }
