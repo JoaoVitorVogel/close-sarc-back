@@ -12,4 +12,17 @@ public class ResourceCreateDto {
     private String description;
 
     private Boolean available;
+
+    // Getters explícitos para garantir compatibilidade
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Boolean getAvailable() {
+        return available;
+    }
 }

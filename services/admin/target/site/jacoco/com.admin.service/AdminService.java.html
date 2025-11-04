@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AdminService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">admin</a> &gt; <a href="index.source.html" class="el_package">com.admin.service</a> &gt; <span class="el_source">AdminService.java</span></div><h1>AdminService.java</h1><pre class="source lang-java linenums">package com.admin.service;
+
+
+import com.admin.dto.ResourceCreateDto;
+import com.admin.dto.GroupCreateDto;
+
+import com.admin.dto.UserCreateDto;
+import com.admin.entity.Group;
+import com.admin.entity.Resource;
+import com.admin.entity.User;
+
+import com.admin.repository.GroupRepository;
+import com.admin.repository.ResourceRepository;
+import com.admin.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+@Service
+<span class="fc" id="L21">public class AdminService {</span>
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ResourceRepository resourceRepository;
+
+    @Autowired
+    private GroupRepository groupRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Transactional
+    public User addUser(UserCreateDto dto) {
+<span class="fc" id="L36">        User user = new User();</span>
+<span class="fc" id="L37">        user.setName(dto.getName());</span>
+<span class="fc" id="L38">        user.setEmail(dto.getEmail());</span>
+<span class="fc" id="L39">        user.setPassword(passwordEncoder.encode(dto.getPassword()));</span>
+
+<span class="fc" id="L41">        return userRepository.save(user);</span>
+    }
+
+    @Transactional
+    public Resource cadastrarRecurso(ResourceCreateDto dto) {
+<span class="fc" id="L46">        Resource resource = new Resource();</span>
+<span class="fc" id="L47">        resource.setName(dto.getName());</span>
+<span class="fc" id="L48">        resource.setDescription(dto.getDescription());</span>
+
+        // If DTO doesn't specify 'available', defaults to 'true'
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        if (dto.getAvailable() != null) {</span>
+<span class="fc" id="L52">            resource.setAvailable(dto.getAvailable());</span>
+<span class="fc" id="L53">        } else {</span>
+<span class="fc" id="L54">            resource.setAvailable(true);</span>
+        }
+
+<span class="fc" id="L57">        return resourceRepository.save(resource);</span>
+    }
+
+    @Transactional
+    public Group cadastrarGroup(GroupCreateDto dto) {
+<span class="fc" id="L62">        Group group = new Group();</span>
+<span class="fc" id="L63">        group.setName(dto.getName());</span>
+<span class="fc" id="L64">        group.setCourse(dto.getCourse());</span>
+<span class="fc" id="L65">        group.setSchedule(dto.getSchedule());</span>
+<span class="fc" id="L66">        group.setProfessorId(dto.getProfessorId());</span>
+
+<span class="fc" id="L68">        return groupRepository.save(group);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

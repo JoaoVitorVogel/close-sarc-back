@@ -33,4 +33,29 @@ public class EventoCreateDto {
     @NotNull(message = "O ID do recurso é obrigatório")
     @Schema(description = "ID do recurso (sala, laboratório, etc.)", example = "1", required = true)
     private Long recursoId;
+
+    // Getters explícitos para garantir compatibilidade
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public LocalDateTime getDataInicio() {
+        return dataInicio;
+    }
+
+    public LocalDateTime getDataFim() {
+        return dataFim;
+    }
+
+    public Long getProfessorId() {
+        return professorId;
+    }
+
+    public Long getRecursoId() {
+        return recursoId;
+    }
 }

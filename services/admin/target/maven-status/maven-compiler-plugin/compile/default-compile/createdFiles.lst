@@ -1,0 +1,15 @@
+com/admin/AdminApplication.class
+com/admin/config/AdminSecurityConfig.class
+com/admin/repository/GroupRepository.class
+com/admin/config/OpenApiConfig.class
+com/admin/service/AdminService.class
+com/admin/repository/ResourceRepository.class
+com/admin/entity/User.class
+com/admin/web/HelloController.class
+com/admin/entity/Resource.class
+com/admin/entity/Group.class
+com/admin/dto/GroupCreateDto.class
+com/admin/web/AdminController.class
+com/admin/dto/UserCreateDto.class
+com/admin/repository/UserRepository.class
+com/admin/dto/ResourceCreateDto.class

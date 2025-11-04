@@ -28,4 +28,25 @@ public class Turma {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "professor_id", nullable = false)
     private Professor professor;
+
+    // Getters e setters explícitos para garantir compatibilidade
+    public Long getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getCurso() {
+        return curso;
+    }
+
+    public String getHorario() {
+        return horario;
+    }
+
+    public Professor getProfessor() {
+        return professor;
+    }
 }

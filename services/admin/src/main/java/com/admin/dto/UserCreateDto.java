@@ -18,4 +18,17 @@ public class UserCreateDto {
     @NotBlank(message = "A password é obrigatória")
     @Size(min = 6, message = "A password deve ter no mínimo 6 caracteres")
     private String password;
+
+    // Getters explícitos para garantir compatibilidade
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }
