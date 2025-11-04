@@ -1,11 +1,11 @@
-package com.example.auth;
+package com.user;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.user")
 public class UserApplication {
     public static void main(String[] args) {
-        SpringApplication.run(com.example.auth.UserApplication.class, args);
+        SpringApplication.run(UserApplication.class, args);
     }
 }
