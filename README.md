@@ -1,4 +1,5 @@
 # Close SARC - Backend
+Tomáz Maciel, João Vitor Vogel, Isabella Zarosa, Eduardo Camana, Augusto Ely, Diogo Camargo
 
 Repositório para o backend do projeto Close SARC, implementado com arquitetura de microserviços.
 
@@ -72,6 +73,11 @@ O banco de dados é inicializado automaticamente com o script `db/init.sql` que 
   - Senha: `admin123`
 
 ## Endpoints Principais
+
+## LINKS SWAGGER 
+-'http://localhost:8080/swagger-ui/index.html#/'- AUTH
+-'http://localhost:8081/swagger-ui/index.html#/'- ADMIN
+-'http://localhost:8082/swagger-ui/index.html#/'- USER
 
 ### Auth Service (http://localhost:8080)
 - `POST /api/auth/login` - Login de usuário/professor ou admin
