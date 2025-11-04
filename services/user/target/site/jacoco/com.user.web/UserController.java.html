@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">user</a> &gt; <a href="index.source.html" class="el_package">com.user.web</a> &gt; <span class="el_source">UserController.java</span></div><h1>UserController.java</h1><pre class="source lang-java linenums">package com.user.web;
+
+import com.user.dto.*;
+import com.user.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping(&quot;/api/user&quot;)
+@Tag(name = &quot;User&quot;, description = &quot;Operações para professores: recursos, reservas, eventos e turmas&quot;)
+<span class="fc" id="L19">public class UserController {</span>
+
+    @Autowired
+    private UserService userService;
+
+    @GetMapping(&quot;/recursos&quot;)
+    @Operation(
+            summary = &quot;Listar recursos disponíveis&quot;,
+            description = &quot;Lista todos os recursos (salas, equipamentos, etc.) com opção de filtragem por disponibilidade&quot;
+    )
+    public ResponseEntity&lt;List&lt;RecursoResponseDto&gt;&gt; listarRecursos(
+            @Parameter(description = &quot;Filtrar por disponibilidade (true/false). Se não informado, lista todos&quot;)
+            @RequestParam(required = false) Boolean disponivel
+    ) {
+<span class="fc" id="L33">        List&lt;RecursoResponseDto&gt; recursos = userService.listarRecursos(disponivel);</span>
+<span class="fc" id="L34">        return ResponseEntity.ok(recursos);</span>
+    }
+
+    @PostMapping(&quot;/reservas&quot;)
+    @Operation(
+            summary = &quot;Criar reserva&quot;,
+            description = &quot;Cria uma nova reserva para um recurso. Valida se o recurso está disponível no horário solicitado.&quot;
+    )
+    public ResponseEntity&lt;ReservaResponseDto&gt; criarReserva(
+            @Valid @RequestBody ReservaCreateDto dto
+    ) {
+<span class="fc" id="L45">        ReservaResponseDto reserva = userService.criarReserva(dto);</span>
+<span class="fc" id="L46">        return ResponseEntity.status(HttpStatus.CREATED).body(reserva);</span>
+    }
+
+    @PostMapping(&quot;/eventos&quot;)
+    @Operation(
+            summary = &quot;Cadastrar evento&quot;,
+            description = &quot;Cadastra um novo evento vinculado a um recurso (ex: sala ou laboratório). &quot; +
+                         &quot;Contém data, hora, descrição e responsável (professor). Cria automaticamente a reserva associada.&quot;
+    )
+    public ResponseEntity&lt;EventoResponseDto&gt; cadastrarEvento(
+            @Valid @RequestBody EventoCreateDto dto
+    ) {
+<span class="fc" id="L58">        EventoResponseDto evento = userService.cadastrarEvento(dto);</span>
+<span class="fc" id="L59">        return ResponseEntity.status(HttpStatus.CREATED).body(evento);</span>
+    }
+
+    @PutMapping(&quot;/reservas/{id}/cancelar&quot;)
+    @Operation(
+            summary = &quot;Cancelar reserva&quot;,
+            description = &quot;Cancela uma reserva existente, atualizando o status para 'CANCELADA'&quot;
+    )
+    public ResponseEntity&lt;ReservaResponseDto&gt; cancelarReserva(
+            @Parameter(description = &quot;ID da reserva a ser cancelada&quot;)
+            @PathVariable Long id
+    ) {
+<span class="fc" id="L71">        ReservaResponseDto reserva = userService.cancelarReserva(id);</span>
+<span class="fc" id="L72">        return ResponseEntity.ok(reserva);</span>
+    }
+
+    @GetMapping(&quot;/professores/{professorId}/turmas&quot;)
+    @Operation(
+            summary = &quot;Listar turmas do professor&quot;,
+            description = &quot;Lista todas as turmas associadas ao professor logado&quot;
+    )
+    public ResponseEntity&lt;List&lt;TurmaResponseDto&gt;&gt; listarTurmasProfessor(
+            @Parameter(description = &quot;ID do professor&quot;)
+            @PathVariable Long professorId
+    ) {
+<span class="fc" id="L84">        List&lt;TurmaResponseDto&gt; turmas = userService.listarTurmasProfessor(professorId);</span>
+<span class="fc" id="L85">        return ResponseEntity.ok(turmas);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

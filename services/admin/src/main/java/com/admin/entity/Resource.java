@@ -23,4 +23,12 @@ public class Resource {
     @Column(nullable = false)
     private boolean available = true; // Valor padrão do init.sql
 
+    // Getters e setters explícitos para garantir compatibilidade
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
 }

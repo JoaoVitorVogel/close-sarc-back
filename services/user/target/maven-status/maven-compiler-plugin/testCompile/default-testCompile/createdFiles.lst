@@ -1,0 +1,6 @@
+com/user/repository/TurmaRepositoryTest.class
+com/user/repository/ProfessorRepositoryTest.class
+com/user/repository/ReservaRepositoryTest.class
+com/user/web/UserControllerTest.class
+com/user/repository/RecursoRepositoryTest.class
+com/user/service/UserServiceTest.class

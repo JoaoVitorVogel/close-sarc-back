@@ -11,4 +11,13 @@ public class ReservaCreateDto {
 
     @NotNull(message = "O ID do recurso é obrigatório")
     private Long recursoId;
+
+    // Getters explícitos para garantir compatibilidade
+    public Long getEventoId() {
+        return eventoId;
+    }
+
+    public Long getRecursoId() {
+        return recursoId;
+    }
 }

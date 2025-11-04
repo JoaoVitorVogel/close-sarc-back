@@ -1,0 +1,5 @@
+com/admin/repository/GroupRepositoryTest.class
+com/admin/repository/ResourceRepositoryTest.class
+com/admin/web/AdminControllerTest.class
+com/admin/service/AdminServiceTest.class
+com/admin/repository/UserRepositoryTest.class

@@ -1,0 +1,15 @@
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/admin/src/main/java/com/admin/AdminApplication.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/admin/src/main/java/com/admin/config/AdminSecurityConfig.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/admin/src/main/java/com/admin/config/OpenApiConfig.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/admin/src/main/java/com/admin/dto/GroupCreateDto.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/admin/src/main/java/com/admin/dto/ResourceCreateDto.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/admin/src/main/java/com/admin/dto/UserCreateDto.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/admin/src/main/java/com/admin/entity/Group.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/admin/src/main/java/com/admin/entity/Resource.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/admin/src/main/java/com/admin/entity/User.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/admin/src/main/java/com/admin/repository/GroupRepository.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/admin/src/main/java/com/admin/repository/ResourceRepository.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/admin/src/main/java/com/admin/repository/UserRepository.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/admin/src/main/java/com/admin/service/AdminService.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/admin/src/main/java/com/admin/web/AdminController.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/admin/src/main/java/com/admin/web/HelloController.java
