@@ -33,11 +33,10 @@ public class AdminService {
     private PasswordEncoder passwordEncoder;
     @Transactional
     public User addUser(UserCreateDto dto) {
-
         User user = new User();
-        user.setNome(dto.getNome());
+        user.setName(dto.getName());
         user.setEmail(dto.getEmail());
-        user.setSenha(passwordEncoder.encode(dto.getSenha()));
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         return userRepository.save(user);
     }
@@ -45,26 +44,26 @@ public class AdminService {
     @Transactional
     public Resource cadastrarRecurso(ResourceCreateDto dto) {
         Resource resource = new Resource();
-        resource.setNome(dto.getNome());
-        resource.setDescricao(dto.getDescricao());
+        resource.setName(dto.getName());
+        resource.setDescription(dto.getDescription());
 
-        // Se o DTO não informar 'disponivel', assume o padrão 'true'
-        if (dto.getDisponivel() != null) {
-            resource.setDisponivel(dto.getDisponivel());
+        // If DTO doesn't specify 'available', defaults to 'true'
+        if (dto.getAvailable() != null) {
+            resource.setAvailable(dto.getAvailable());
         } else {
-            resource.setDisponivel(true);
+            resource.setAvailable(true);
         }
 
         return resourceRepository.save(resource);
     }
 
+    @Transactional
     public Group cadastrarGroup(GroupCreateDto dto) {
         Group group = new Group();
-        group.setNome(dto.getNome());
-        group.setCurso(dto.getCurso());
-        group.setHorario(dto.getHorario());
-        group.setProfessor_id(dto.getId_professor());
-
+        group.setName(dto.getName());
+        group.setCourse(dto.getCourse());
+        group.setSchedule(dto.getSchedule());
+        group.setProfessorId(dto.getProfessorId());
 
         return groupRepository.save(group);
     }

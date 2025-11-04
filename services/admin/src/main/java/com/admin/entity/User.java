@@ -15,13 +15,13 @@ public class User {
     private Long id;
 
     @Column(length = 100)
-    private String nome;
+    private String name;
 
     @Column(length = 100, nullable = false, unique = true)
     private String email;
 
     @Column(length = 255, nullable = false)
-    private String senha; //criptografar talvez nn sei se precisa :P
+    private String password; //criptografar talvez nn sei se precisa :P
 
 
 }

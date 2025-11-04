@@ -7,11 +7,11 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "administrador")
+@Table(name = "admin")
 public class Admin {
     @Id
     private Long id;
     private String email;
-    private String senha;
-    private String nome;
+    private String password;
+    private String name;
 }

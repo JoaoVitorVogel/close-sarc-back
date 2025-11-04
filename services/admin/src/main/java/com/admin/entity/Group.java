@@ -7,23 +7,23 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "turma")
+@Table(name = "class")
 public class Group {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 100)
-    private String nome;
+    @Column(name = "name", length = 100)
+    private String name;
 
-    @Column(columnDefinition = "TEXT")
-    private String curso;
+    @Column(name = "course", length = 100)
+    private String course;
 
-    @Column(nullable = false)
-    private String horario;
+    @Column(name = "schedule", length = 50, nullable = false)
+    private String schedule;
 
-    @Column(nullable = false)
-    private Long professor_id;
+    @Column(name = "professor_id", nullable = false)
+    private Long professorId;
 
 }

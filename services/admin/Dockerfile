@@ -14,7 +14,7 @@ ENV TZ=UTC \
 # Usuário não-root
 RUN addgroup -S app && adduser -S app -G app
 WORKDIR /app
-# Copia o jar gerado (qualquer nome) para app.jar
+# Copia o jar gerado (qualquer name) para app.jar
 COPY --from=build /workspace/target/*.jar /app/app.jar
 USER app
 EXPOSE 8080
