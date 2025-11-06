@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">user</a> &gt; <a href="index.source.html" class="el_package">com.user.service</a> &gt; <span class="el_source">UserService.java</span></div><h1>UserService.java</h1><pre class="source lang-java linenums">package com.user.service;
+
+import com.user.dto.*;
+import com.user.entity.*;
+import com.user.exception.ResourceNotFoundException;
+import com.user.exception.ResourceNotAvailableException;
+import com.user.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+<span class="fc" id="L16">public class UserService {</span>
+
+    @Autowired
+    private RecursoRepository recursoRepository;
+
+    @Autowired
+    private ReservaRepository reservaRepository;
+
+    @Autowired
+    private EventoRepository eventoRepository;
+
+    @Autowired
+    private ProfessorRepository professorRepository;
+
+    @Autowired
+    private TurmaRepository turmaRepository;
+
+    // 1. Listar recursos com filtro de disponibilidade
+    public List&lt;RecursoResponseDto&gt; listarRecursos(Boolean disponivel) {
+        List&lt;Recurso&gt; recursos;
+        
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        if (disponivel != null) {</span>
+<span class="fc" id="L38">            recursos = recursoRepository.findByDisponivel(disponivel);</span>
+<span class="fc" id="L39">        } else {</span>
+<span class="fc" id="L40">            recursos = recursoRepository.findAll();</span>
+        }
+        
+<span class="fc" id="L43">        return recursos.stream()</span>
+<span class="fc" id="L44">                .map(this::mapToRecursoResponseDto)</span>
+<span class="fc" id="L45">                .collect(Collectors.toList());</span>
+    }
+
+    // 2. Criar reserva (validando disponibilidade)
+    @Transactional
+    public ReservaResponseDto criarReserva(ReservaCreateDto dto) {
+        // Buscar evento
+<span class="fc" id="L52">        Evento evento = eventoRepository.findById(dto.getEventoId())</span>
+<span class="fc" id="L53">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Evento não encontrado com ID: &quot; + dto.getEventoId()));</span>
+
+        // Buscar recurso
+<span class="fc" id="L56">        Recurso recurso = recursoRepository.findById(dto.getRecursoId())</span>
+<span class="pc" id="L57">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Recurso não encontrado com ID: &quot; + dto.getRecursoId()));</span>
+
+        // Verificar se recurso está disponível
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        if (!recurso.isDisponivel()) {</span>
+<span class="fc" id="L61">            throw new ResourceNotAvailableException(&quot;Recurso não está disponível para reserva&quot;);</span>
+        }
+
+        // Verificar conflitos de horário
+<span class="fc" id="L65">        List&lt;Reserva&gt; reservasConflitantes = reservaRepository.findReservasConflitantes(</span>
+<span class="fc" id="L66">                recurso.getId(),</span>
+<span class="fc" id="L67">                evento.getDataInicio(),</span>
+<span class="fc" id="L68">                evento.getDataFim()</span>
+        );
+
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        if (!reservasConflitantes.isEmpty()) {</span>
+<span class="fc" id="L72">            throw new ResourceNotAvailableException(</span>
+<span class="fc" id="L73">                    &quot;Recurso já está reservado no período solicitado&quot;</span>
+            );
+        }
+
+        // Criar reserva
+<span class="fc" id="L78">        Reserva reserva = new Reserva();</span>
+<span class="fc" id="L79">        reserva.setEvento(evento);</span>
+<span class="fc" id="L80">        reserva.setRecurso(recurso);</span>
+<span class="fc" id="L81">        reserva.setStatus(&quot;ATIVA&quot;);</span>
+
+<span class="fc" id="L83">        reserva = reservaRepository.save(reserva);</span>
+
+<span class="fc" id="L85">        return mapToReservaResponseDto(reserva);</span>
+    }
+
+    // 3. Cadastrar evento (criando também a reserva)
+    @Transactional
+    public EventoResponseDto cadastrarEvento(EventoCreateDto dto) {
+        // Validar data
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">        if (dto.getDataFim().isBefore(dto.getDataInicio()) || </span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">            dto.getDataFim().isEqual(dto.getDataInicio())) {</span>
+<span class="fc" id="L94">            throw new ResourceNotAvailableException(&quot;Data de fim deve ser posterior à data de início&quot;);</span>
+        }
+
+        // Buscar professor
+<span class="fc" id="L98">        Professor professor = professorRepository.findById(dto.getProfessorId())</span>
+<span class="fc" id="L99">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Professor não encontrado com ID: &quot; + dto.getProfessorId()));</span>
+
+        // Criar evento
+<span class="fc" id="L102">        Evento evento = new Evento();</span>
+<span class="fc" id="L103">        evento.setTitulo(dto.getTitulo());</span>
+<span class="fc" id="L104">        evento.setDescricao(dto.getDescricao());</span>
+<span class="fc" id="L105">        evento.setDataInicio(dto.getDataInicio());</span>
+<span class="fc" id="L106">        evento.setDataFim(dto.getDataFim());</span>
+<span class="fc" id="L107">        evento.setProfessor(professor);</span>
+
+<span class="fc" id="L109">        evento = eventoRepository.save(evento);</span>
+
+        // Buscar recurso
+<span class="fc" id="L112">        Recurso recurso = recursoRepository.findById(dto.getRecursoId())</span>
+<span class="pc" id="L113">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Recurso não encontrado com ID: &quot; + dto.getRecursoId()));</span>
+
+        // Verificar disponibilidade e criar reserva
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">        if (!recurso.isDisponivel()) {</span>
+<span class="nc" id="L117">            throw new ResourceNotAvailableException(&quot;Recurso não está disponível para reserva&quot;);</span>
+        }
+
+        // Verificar conflitos de horário
+<span class="fc" id="L121">        List&lt;Reserva&gt; reservasConflitantes = reservaRepository.findReservasConflitantes(</span>
+<span class="fc" id="L122">                recurso.getId(),</span>
+<span class="fc" id="L123">                evento.getDataInicio(),</span>
+<span class="fc" id="L124">                evento.getDataFim()</span>
+        );
+
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">        if (!reservasConflitantes.isEmpty()) {</span>
+<span class="nc" id="L128">            throw new ResourceNotAvailableException(</span>
+<span class="nc" id="L129">                    &quot;Recurso já está reservado no período solicitado&quot;</span>
+            );
+        }
+
+        // Criar reserva associada ao evento
+<span class="fc" id="L134">        Reserva reserva = new Reserva();</span>
+<span class="fc" id="L135">        reserva.setEvento(evento);</span>
+<span class="fc" id="L136">        reserva.setRecurso(recurso);</span>
+<span class="fc" id="L137">        reserva.setStatus(&quot;ATIVA&quot;);</span>
+<span class="fc" id="L138">        reservaRepository.save(reserva);</span>
+
+<span class="fc" id="L140">        return mapToEventoResponseDto(evento);</span>
+    }
+
+    // 4. Cancelar reserva
+    @Transactional
+    public ReservaResponseDto cancelarReserva(Long reservaId) {
+<span class="fc" id="L146">        Reserva reserva = reservaRepository.findById(reservaId)</span>
+<span class="pc" id="L147">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Reserva não encontrada com ID: &quot; + reservaId));</span>
+
+<span class="fc bfc" id="L149" title="All 2 branches covered.">        if (&quot;CANCELADA&quot;.equals(reserva.getStatus())) {</span>
+<span class="fc" id="L150">            throw new ResourceNotAvailableException(&quot;Reserva já está cancelada&quot;);</span>
+        }
+
+<span class="fc" id="L153">        reserva.setStatus(&quot;CANCELADA&quot;);</span>
+<span class="fc" id="L154">        reserva = reservaRepository.save(reserva);</span>
+
+<span class="fc" id="L156">        return mapToReservaResponseDto(reserva);</span>
+    }
+
+    // 5. Listar turmas do professor
+    public List&lt;TurmaResponseDto&gt; listarTurmasProfessor(Long professorId) {
+        // Verificar se professor existe
+<span class="fc" id="L162">        professorRepository.findById(professorId)</span>
+<span class="fc" id="L163">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Professor não encontrado com ID: &quot; + professorId));</span>
+
+<span class="fc" id="L165">        List&lt;Turma&gt; turmas = turmaRepository.findByProfessor_Id(professorId);</span>
+
+<span class="fc" id="L167">        return turmas.stream()</span>
+<span class="fc" id="L168">                .map(this::mapToTurmaResponseDto)</span>
+<span class="fc" id="L169">                .collect(Collectors.toList());</span>
+    }
+
+    // Mappers auxiliares
+    private RecursoResponseDto mapToRecursoResponseDto(Recurso recurso) {
+<span class="fc" id="L174">        RecursoResponseDto dto = new RecursoResponseDto();</span>
+<span class="fc" id="L175">        dto.setId(recurso.getId());</span>
+<span class="fc" id="L176">        dto.setNome(recurso.getNome());</span>
+<span class="fc" id="L177">        dto.setDescricao(recurso.getDescricao());</span>
+<span class="fc" id="L178">        dto.setDisponivel(recurso.isDisponivel());</span>
+<span class="fc" id="L179">        return dto;</span>
+    }
+
+    private ReservaResponseDto mapToReservaResponseDto(Reserva reserva) {
+<span class="fc" id="L183">        ReservaResponseDto dto = new ReservaResponseDto();</span>
+<span class="fc" id="L184">        dto.setId(reserva.getId());</span>
+<span class="fc" id="L185">        dto.setStatus(reserva.getStatus());</span>
+<span class="fc" id="L186">        dto.setEventoId(reserva.getEvento().getId());</span>
+<span class="fc" id="L187">        dto.setRecursoId(reserva.getRecurso().getId());</span>
+<span class="fc" id="L188">        dto.setRecursoNome(reserva.getRecurso().getNome());</span>
+<span class="fc" id="L189">        return dto;</span>
+    }
+
+    private EventoResponseDto mapToEventoResponseDto(Evento evento) {
+<span class="fc" id="L193">        EventoResponseDto dto = new EventoResponseDto();</span>
+<span class="fc" id="L194">        dto.setId(evento.getId());</span>
+<span class="fc" id="L195">        dto.setTitulo(evento.getTitulo());</span>
+<span class="fc" id="L196">        dto.setDescricao(evento.getDescricao());</span>
+<span class="fc" id="L197">        dto.setDataInicio(evento.getDataInicio());</span>
+<span class="fc" id="L198">        dto.setDataFim(evento.getDataFim());</span>
+<span class="fc" id="L199">        dto.setProfessorId(evento.getProfessor().getId());</span>
+<span class="fc" id="L200">        dto.setProfessorNome(evento.getProfessor().getNome());</span>
+<span class="fc" id="L201">        return dto;</span>
+    }
+
+    private TurmaResponseDto mapToTurmaResponseDto(Turma turma) {
+<span class="fc" id="L205">        TurmaResponseDto dto = new TurmaResponseDto();</span>
+<span class="fc" id="L206">        dto.setId(turma.getId());</span>
+<span class="fc" id="L207">        dto.setNome(turma.getNome());</span>
+<span class="fc" id="L208">        dto.setCurso(turma.getCurso());</span>
+<span class="fc" id="L209">        dto.setHorario(turma.getHorario());</span>
+<span class="fc" id="L210">        dto.setProfessorId(turma.getProfessor().getId());</span>
+<span class="fc" id="L211">        dto.setProfessorNome(turma.getProfessor().getNome());</span>
+<span class="fc" id="L212">        return dto;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

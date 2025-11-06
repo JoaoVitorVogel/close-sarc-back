@@ -1,0 +1,12 @@
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/auth/src/test/java/com/auth/AuthApplicationTest.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/auth/src/test/java/com/auth/config/RsaKeyConfigTest.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/auth/src/test/java/com/auth/config/SecurityConfigTest.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/auth/src/test/java/com/auth/config/TestConfig.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/auth/src/test/java/com/auth/controller/AuthControllerTest.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/auth/src/test/java/com/auth/controller/JwksControllerTest.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/auth/src/test/java/com/auth/repository/AdminRepositoryTest.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/auth/src/test/java/com/auth/repository/UserRepositoryTest.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/auth/src/test/java/com/auth/service/AuthServiceTest.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/auth/src/test/java/com/auth/service/TokenServiceTest.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/auth/src/test/java/com/auth/service/UserDetailsServiceImplTest.java
+/Users/eduardocamana/Documents/Cursor Projects/close-sarc-back/services/auth/src/test/java/com/auth/web/HelloControllerTest.java

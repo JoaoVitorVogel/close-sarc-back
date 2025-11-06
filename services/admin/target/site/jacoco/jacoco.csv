@@ -1,0 +1,11 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+admin,com.admin.service,AdminService,0,84,0,2,0,20,0,5,0,4
+admin,com.admin.entity,Resource,0,7,0,0,0,3,0,2,0,2
+admin,com.admin.config,OpenApiConfig,3,0,0,0,1,0,1,0,1,0
+admin,com.admin.config,AdminSecurityConfig,94,0,0,0,24,0,9,0,9,0
+admin,com.admin.dto,UserCreateDto,0,9,0,0,0,3,0,3,0,3
+admin,com.admin.dto,GroupCreateDto,0,12,0,0,0,4,0,4,0,4
+admin,com.admin.dto,ResourceCreateDto,0,9,0,0,0,3,0,3,0,3
+admin,com.admin,AdminApplication,5,3,0,0,2,1,1,1,1,1
+admin,com.admin.web,AdminController,0,33,0,0,0,7,0,4,0,4
+admin,com.admin.web,HelloController,5,0,0,0,2,0,2,0,2,0

@@ -18,4 +18,21 @@ public class GroupCreateDto {
 
     @NotNull(message = "Professor ID is required")
     private Long professorId;
+
+    // Getters explícitos para garantir compatibilidade
+    public String getName() {
+        return name;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public String getSchedule() {
+        return schedule;
+    }
+
+    public Long getProfessorId() {
+        return professorId;
+    }
 }
