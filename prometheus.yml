@@ -1,0 +1,8 @@
+global:
+  scrape_interval: 5s # Coleta a cada 5s para teste (produção use 15s ou mais)
+
+scrape_configs:
+  - job_name: 'microservices_scrape'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['auth:8080', 'admin:8080', 'user:8080', 'gateway:8888']
