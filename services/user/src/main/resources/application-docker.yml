@@ -1,11 +1,19 @@
 server:
-  port: 8080
+  port: 8082
 
 spring:
+  application:
+    name: user-service
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://auth:8083
+          jwk-set-uri: http://auth:8083/oauth2/jwks
   jpa:
     open-in-view: false
     hibernate:
@@ -13,3 +21,14 @@ spring:
     properties:
       hibernate.format_sql: true
       hibernate.show_sql: true
+
+# Eureka Client Configuration
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+    hostname: user

@@ -17,6 +17,29 @@ services:
       timeout: 3s
       retries: 20
 
+  # --- Service Discovery (Eureka Server) ---
+  discovery:
+    build:
+      context: ./services/discovery
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "8761:8761"
+    restart: unless-stopped
+
+  # --- API Gateway ---
+  gateway:
+    build:
+      context: ./services/gateway
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "8080:8080"
+    depends_on:
+      - discovery
+    restart: unless-stopped
+
+  # --- Microservices ---
   auth:
     build:
       context: ./services/auth
@@ -27,10 +50,12 @@ services:
       SPRING_DATASOURCE_PASSWORD: admin
       # JAVA_OPTS: "-Xms256m -Xmx512m"  # opcional
     ports:
-      - "8080:8080"
+      - "8083:8083"
     depends_on:
       postgres:
         condition: service_healthy
+      discovery:
+        condition: service_started
     restart: unless-stopped
 
   admin:
@@ -42,10 +67,12 @@ services:
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: admin
     ports:
-      - "8081:8080"
+      - "8081:8081"
     depends_on:
       postgres:
         condition: service_healthy
+      discovery:
+        condition: service_started
     restart: unless-stopped
 
   user:
@@ -57,10 +84,12 @@ services:
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: admin
     ports:
-      - "8082:8080"
+      - "8082:8082"
     depends_on:
       postgres:
         condition: service_healthy
+      discovery:
+        condition: service_started
     restart: unless-stopped
   # --- Infraestrutura: Observabilidade ---
   prometheus:

@@ -1,7 +1,9 @@
 server:
-  port: 8080
+  port: 8081
 
 spring:
+  application:
+    name: admin-service
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
@@ -10,8 +12,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://auth:8080
-          jwk-set-uri: http://auth:8080/oauth2/jwks
+          issuer-uri: http://auth:8083
+          jwk-set-uri: http://auth:8083/oauth2/jwks
   jpa:
     open-in-view: false
     hibernate:
@@ -23,3 +25,14 @@ spring:
   springdoc:
     swagger-ui:
       path: /swagger-ui
+
+# Eureka Client Configuration
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+    hostname: admin
