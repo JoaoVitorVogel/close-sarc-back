@@ -1,7 +1,9 @@
 server:
-  port: 8080
+  port: 8083
 
 spring:
+  application:
+    name: auth-service
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
@@ -15,8 +17,19 @@ spring:
   flyway:
     enabled: false
 
+# Eureka Client Configuration
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+    hostname: auth
+
 jwt:
-  issuer: http://auth:8080
+  issuer: http://auth:8083
   key:
     private: classpath:certs/private_key.pem
     public: classpath:certs/public_key.pem
